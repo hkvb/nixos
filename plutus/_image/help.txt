@@ -1,0 +1,13 @@
+
+This script expects the a working folder for the repositories mapped to /plutus.
+It clones the Plutus repository if it is not found in the working folder.
+
+Choose from the following options:
+----------------------------------
+no options             : start the Plutus Playground at the current Plutus commit
+
+[path to project root] : relative path in /plutus folder to project root that contains project.cabal file
+                       : e.g. pioneer week01 'plutus-pioneer-program/code/week01'
+
+sh                     : go to command shell
+--help                 : print the help file

@@ -1,0 +1,69 @@
+#!/usr/bin/env sh
+
+# Print the header welcome message
+cat /vcw/pwd/welcome.txt;
+cat /vcw/pwd/urls.txt;
+
+# sh argument should exit the script
+if [[ "$(echo "$1")" == "$(echo "sh")" ]] ; then sh; exit; fi
+
+# --help argument prints help information
+if [[ "$(echo "$1")" == "$(echo "--help")" ]] ; then cat /vcw/pwd/help.txt; exit; fi
+
+# if the plutus folder hasn't been mapped in the echo docker run command
+if [[ ! -d /plutus || "$(df -h | grep /nix)" == "" ]] ; then
+  echo "Instantiation of the image requires the mapping of data volumes and ports."
+  echo "Please use the command printed above."
+  echo ""
+  exit;
+fi
+
+# Install prerequisites
+if [[ "$(which git)" == "" ]] ; then echo "installing git ..."; nix-env --install git; else echo "git is already installed ..."; fi
+if [[ "$(which tmux)" == "" ]] ; then echo "installing tmux ..."; nix-env --install tmux; else echo "tmux is already installed ..."; fi
+
+# ensure IOHK caches are configured
+if [[ "$(cat /etc/nix/nix.conf | grep hydra.iohk.io)" == "" ]] ; then
+  echo "Configuring IOHK caches ... "
+  echo "substituters        = https://hydra.iohk.io https://iohk.cachix.org https://cache.nixos.org/" >> /etc/nix/nix.conf
+  echo "trusted-public-keys = hydra.iohk.io:f/Ea+s+dFdN+3Y/G+FDgSq+a5NEWhJGzdjvKNGv0/EQ= iohk.cachix.org-1:DpRUyj7h7V830dp/i6Nti+NEO2/nhblbov/8MW7Rqoo= cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY=" >> /etc/nix/nix.conf
+else
+  echo "IOHK caches already configured ... "
+fi
+
+# check that Plutus repository is available
+if [[ ! -f /plutus/plutus/default.nix ]] ; then
+  echo "Can't find Plutus repository ... ";
+  echo "Cloning Plutus repository ... ";
+  cd /plutus
+  git clone https://github.com/input-output-hk/plutus.git
+else
+  echo "Found Plutus repository ..."
+fi
+
+# If a repository is supplied in the arguments, then synchronise Plutus to correct commit
+if [[ "$1" != "" ]] ;  then
+  echo "Preparing Plutus Playground for project: $1 ..."
+  if [[ ! -d "/plutus/$1" || ! -f "/plutus/$1/cabal.project" ]] ; then echo "Project folder or cabal.project file does not exist ... "; exit; fi
+  commit="$(cat /plutus/$1/cabal.project | grep -m1 tag: | cut -f4 -d' ')"
+  cd /plutus/plutus
+  git checkout "$commit"
+fi
+
+# configure Playground server
+if [[ "$(cat /plutus/plutus/plutus-playground-client/webpack.config.js | grep 0.0.0.0 )" == "" ]] ;  then
+  echo "Configuring Playground server for access ..."
+  sed -i -e 's/port: 8009,/port: 8009, host: "0.0.0.0",/g' /plutus/plutus/plutus-playground-client/webpack.config.js
+else
+  echo "Playground server already configured for access ..."
+fi
+
+# Building the Haddock documentation
+cd /plutus/plutus
+echo "Building Haddock documentation ..."
+nix build -f default.nix docs.site
+
+
+# start the Plutus Playground Server
+echo "initialising nix-shell in Plutus root ..."
+nix-shell --run "/vcw/pwd/start-tmux-session $1"

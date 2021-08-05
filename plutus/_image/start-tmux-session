@@ -1,0 +1,26 @@
+#!/usr/bin/env sh
+
+tmux new -s plutus -d
+
+tmux split-window -vb -l 5
+tmux split-window -vb -l 15
+tmux split-window -h
+tmux split-window -h
+
+tmux send-keys -t plutus.1 'cd plutus-playground-client' Enter
+tmux send-keys -t plutus.1 'plutus-playground-server' Enter
+
+tmux send-keys -t plutus.0 'cd plutus-playground-client' Enter
+tmux send-keys -t plutus.0 'npm run start' Enter
+
+tmux send-keys -t plutus.2 'cd /vcw/pwd/haddock-web' Enter
+tmux send-keys -t plutus.2 './plutus-haddock -s /plutus/plutus/result' Enter
+
+tmux send-keys -t plutus.3 'cat /vcw/pwd/urls.txt' Enter
+if [[ "$1" != "" ]] ; then
+  tmux send-keys -t plutus.4 "cd /plutus/$1" Enter
+  tmux send-keys -t plutus.4 "cabal update" Enter
+  tmux send-keys -t plutus.4 "cabal repl" Enter
+fi
+
+tmux attach -t plutus
