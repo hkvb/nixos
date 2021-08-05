@@ -66,4 +66,4 @@ nix build -f default.nix docs.site
 
 # start the Plutus Playground Server
 echo "initialising nix-shell in Plutus root ..."
-nix-shell --run "/vcw/pwd/start-tmux-session $1"
+nix-shell --run "source /vcw/pwd/start-tmux-session $1; return"

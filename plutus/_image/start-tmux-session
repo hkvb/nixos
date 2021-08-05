@@ -2,9 +2,9 @@
 
 tmux new -s plutus -d
 
-tmux split-window -vb -l 5
-tmux split-window -vb -l 15
+tmux split-window -vb
 tmux split-window -h
+tmux split-window -vb
 tmux split-window -h
 
 tmux send-keys -t plutus.1 'cd plutus-playground-client' Enter
