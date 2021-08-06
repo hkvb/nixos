@@ -3,8 +3,6 @@
 Hello from the Plutus Playground Manager!
 -----------------------------------------
 
-Instantiation of the image requires the mapping of data volumes and ports."
-The correct command is printed below:"
-docker run -it -p 8009:8009 -p 8010:8010 -v nixos_plutus:/nixos -v [path/to/repository/folder]:/plutus hkvb/nixos.plutus"
+See help for additional information, by executing :  docker run hkvb/nixos.plutus --help
 
 -----------------------------------------

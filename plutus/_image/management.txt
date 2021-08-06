@@ -1,0 +1,13 @@
+
+Instantiation of the image requires the mapping of data volumes and ports.
+Please extract the management scripts in the working folder with
+
+Linux   : docker run -v $(pwd):/plutus hkvb/nixos.plutus --extract
+Windows : docker run -v %cd%:/plutus hkvb/nixos.plutus --extract
+
+or start the Plutus PLayground Manager using the docker run commands below
+
+Linux   : docker run -it -p 8009:8009- -p 8010:8010 -p 8011:8080 -v nixos_plutus:/nix -v $(pwd):/plutus hkvb/nixos.plutus
+Windows : docker run -it -p 8009:8009 -p 8010:8010 -p 8011:8080 -v nixos_plutus:/nix -v %cd%:/plutus hkvb/nixos.plutus
+
+-----------------------------------------

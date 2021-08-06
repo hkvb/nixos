@@ -9,7 +9,7 @@ nixos/nix image prepared for Plutus development.
 Instantiation:
 
 ```bash
-sudo docker run -it -p 8009:8009 -p 8010:8010 -v hkvb_nixos_plutus:/nix -v $(pwd):/plutus hkvb/nixos.plutus
+sudo docker run -it -p 8009:8009 -p 8010:8010 -v nixos_plutus:/nix -v $(pwd):/plutus hkvb/nixos.plutus
 ```
 Get the full help by executing:
 

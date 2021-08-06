@@ -1,9 +1,12 @@
 
-This script expects the a working folder for the repositories mapped to /plutus.
+This script expects the working folder for the repositories to be mapped to /plutus.
 It clones the Plutus repository if it is not found in the working folder.
+
+The options described below are valid for the mangement scripts and docker run commands.
 
 Choose from the following options:
 ----------------------------------
+
 no options             : start the Plutus Playground at the current Plutus commit
 
 [path to project root] : relative path in /plutus folder to project root that contains project.cabal file
@@ -11,3 +14,14 @@ no options             : start the Plutus Playground at the current Plutus commi
 
 sh                     : go to command shell
 --help                 : print the help file
+--extract              : extract the management scripts
+
+Management Scripts:
+-------------------
+
+./start     start.bat      : start the manager, supply options as required
+./stop      stop.bat       : stop the manager
+./reconnect reconnect.bat  : reconnect to running instance
+./reset     reset.bat      : remove nix data volume and running instance to restart from scratch
+
+-----------------------------------------

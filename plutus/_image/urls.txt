@@ -1,6 +1,7 @@
 
-Plutus Playground     : https:/localhost:8009
-Plutus Documentation  : http:/localhost:8010/index.html
-Haddock Documentation : http:/localhost:8010/haddock/index.html
+Plutus Playground     : https://localhost:8009
+Plutus Documentation  : http://localhost:8010/index.html
+Haddock Documentation : http://localhost:8010/haddock/index.html
+Plutus Server         : https://localhost:8011
 
 -----------------------------------------

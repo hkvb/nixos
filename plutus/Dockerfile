@@ -5,7 +5,7 @@ FROM ${VCW_REGISTRY}nixos/nix:${VCW_TAG}
 COPY _image/ /vcw/pwd/
 RUN chmod -R 755 vcw/pwd/*
 
-ENTRYPOINT ["/vcw/pwd/start-playground"]
+ENTRYPOINT ["/vcw/pwd/start-container"]
 
 LABEL co.vcweb.schema-version="1.0" \
       co.vcweb.label="${VCW_REALM}/nixos.plutus" \
