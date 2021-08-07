@@ -22,7 +22,7 @@ if [[ ! -f /plutus/plutus/default.nix ]] ; then
 else
   echo "Found Plutus repository ..."
 fi
-chown -R root:root /plutus/plutus
+chown -R root:root /plutus
 
 # If a repository is supplied in the arguments, then synchronise Plutus to correct commit
 if [[ "$1" != "" ]] ;  then

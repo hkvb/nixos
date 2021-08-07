@@ -1,27 +1,33 @@
 
-This script expects the working folder for the repositories to be mapped to /plutus.
-It clones the Plutus repository if it is not found in the working folder.
+Extract the management script to the working folder by executing:
 
-The options described below are valid for the mangement scripts and docker run commands.
-
-Choose from the following options:
-----------------------------------
-
-no options             : start the Plutus Playground at the current Plutus commit
-
-[path to project root] : relative path in /plutus folder to project root that contains project.cabal file
-                       : e.g. pioneer week01 'plutus-pioneer-program/code/week01'
-
-sh                     : go to command shell
---help                 : print the help file
---extract              : extract the management scripts
+Linux   :  docker run -v $(pwd):/plutus hkvb/nixos.plutus --extract
+Windows :  docker run -v %cd%:/plutus hkvb/nixos.plutus --extract
 
 Management Scripts:
 -------------------
 
-./start     start.bat      : start the manager, supply options as required
-./stop      stop.bat       : stop the manager
+./help      help.bat       : show help information
+
+./start     start.bat      : starts the Plutus server, Plutus Playground and the documentation site
+            The code is run at the current Plutus commit or the commit specified in the cabal.project of the repository pointer
+            The repository pointer is the relative path to the folder containing the cabal.project file.
+            e.g. ./start plutus-pioneer-program/code/week02
+
 ./reconnect reconnect.bat  : reconnect to running instance
+./stop      stop.bat       : stop the manager
+
 ./reset     reset.bat      : remove nix data volume and running instance to restart from scratch
+
+./extract   extract.bat    : refresh management scripts
+
+This script expects the working folder for the Plutus repositories to be mapped to /plutus.
+It clones the Plutus repository if it is not found in the working folder.
+
+Docker image options:
+---------------------
+--extract   : extract the management scripts
+--help      : show help information
+sh          : go to command shell
 
 -----------------------------------------

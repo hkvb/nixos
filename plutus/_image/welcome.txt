@@ -3,6 +3,6 @@
 Hello from the Plutus Playground Manager!
 -----------------------------------------
 
-See help for additional information, by executing :  docker run hkvb/nixos.plutus --help
+See help for additional information, by executing help script.
 
 -----------------------------------------

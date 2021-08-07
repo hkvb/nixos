@@ -11,14 +11,10 @@ if [[ "$(echo "$1")" == "$(echo "--extract")" ]] ; then echo "Extracting the man
 
 # Print the header welcome message
 cat /vcw/pwd/welcome.txt;
-
-# if the plutus folder hasn't been mapped in the echo docker run command
-if [[ ! -d /plutus || "$(df -h | grep /nix)" == "" ]] ; then cat /vcw/pwd/management.txt; exit; fi
-
 cat /vcw/pwd/urls.txt;
 
-# --help argument prints help information
-if [[ "$(echo "$1")" == "$(echo "--help")" ]] ; then cat /vcw/pwd/help.txt; exit; fi
+# --help argument prints help information - or if the plutus folder hasn't been mapped in the echo docker run command
+if [[ "$(echo "$1")" == "$(echo "--help")" || ! -d /plutus || "$(df -h | grep /nix)" == "" ]] ; then cat /vcw/pwd/help.txt; exit; fi
 
 #---------------------------------------------------------------------------------------------------------------------------------
 
@@ -27,5 +23,5 @@ if [[ "$(which git)" == "" ]] ; then echo "installing git ..."; nix-env --instal
 if [[ "$(which tmux)" == "" ]] ; then echo "installing tmux ..."; nix-env --install tmux; else echo "tmux is already installed ..."; fi
 
 tmux new -s plutus -d
-tmux send-keys -t plutus.0 '/vcw/pwd/prepare-playground' Enter
+tmux send-keys -t plutus.0 "/vcw/pwd/prepare-playground $@" Enter
 tail -f

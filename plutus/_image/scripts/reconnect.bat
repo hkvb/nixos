@@ -1,2 +1,2 @@
 
-docker exec -it plutus-playground-manager tmux attach -t plutus
+docker exec -it plutus-playground-manager sh -i /vcw/pwd/tmux-attach

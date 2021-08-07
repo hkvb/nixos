@@ -1,7 +1,5 @@
 #!/usr/bin/env sh
 
-#tmux new -s plutus-playground -d
-
 tmux split-window -vb
 tmux split-window -h
 tmux split-window -vb
@@ -17,10 +15,13 @@ tmux send-keys -t plutus.2 'cd /vcw/pwd/haddock-web' Enter
 tmux send-keys -t plutus.2 './plutus-haddock -s /plutus/plutus/result' Enter
 
 tmux send-keys -t plutus.3 'cat /vcw/pwd/urls.txt' Enter
+
+tmux send-keys -t plutus.4 "clear" Enter
 if [[ "$1" != "" ]] ; then
   tmux send-keys -t plutus.4 "cd /plutus/$1" Enter
   tmux send-keys -t plutus.4 "cabal update" Enter
   tmux send-keys -t plutus.4 "cabal repl" Enter
 fi
+tmux select-pane -t plutus.4
 
 tmux attach -t plutus
