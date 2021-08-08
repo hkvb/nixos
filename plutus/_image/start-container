@@ -18,10 +18,5 @@ if [[ "$(echo "$1")" == "$(echo "--help")" || ! -d /plutus || "$(df -h | grep /n
 
 #---------------------------------------------------------------------------------------------------------------------------------
 
-# Install prerequisites
-if [[ "$(which git)" == "" ]] ; then echo "installing git ..."; nix-env --install git; else echo "git is already installed ..."; fi
-if [[ "$(which tmux)" == "" ]] ; then echo "installing tmux ..."; nix-env --install tmux; else echo "tmux is already installed ..."; fi
-
-tmux new -s plutus -d
-tmux send-keys -t plutus.0 "/vcw/pwd/prepare-playground $@" Enter
+# block main thread of container
 tail -f
