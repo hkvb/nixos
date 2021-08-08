@@ -2,6 +2,8 @@
 
 FROM ${VCW_REGISTRY}nixos/nix:${VCW_TAG}
 
+RUN   apk update && apk add ca-certificates wget && update-ca-certificates
+ 
 COPY _image/ /vcw/pwd/
 RUN chmod -R 755 vcw/pwd/*
 

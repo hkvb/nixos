@@ -21,11 +21,12 @@ tmux send-keys -t plutus.2 './plutus-haddock -s /plutus/plutus/result' Enter
 
 tmux send-keys -t plutus.3 'cat /vcw/pwd/urls.txt' Enter
 
-tmux send-keys -t plutus.4 "clear" Enter
 if [[ "$@" != "" ]] ; then
   tmux send-keys -t plutus.4 "cd /plutus/$1" Enter
   tmux send-keys -t plutus.4 "cabal update" Enter
+  tmux send-keys -t plutus.4 "cabal repl" Enter
 fi
+tmux send-keys -t plutus.4 "clear" Enter
 tmux select-pane -t plutus.4
 
 tmux attach -t plutus
