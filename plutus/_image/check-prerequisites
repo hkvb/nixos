@@ -1,5 +1,10 @@
 #!/usr/bin/env sh
 
+# Print the header welcome message
+cat /vcw/pwd/welcome.txt;
+cat /vcw/pwd/urls.txt;
+echo ""
+
 # Install prerequisites
 if [[ "$(which git)" == "" ]] ; then echo "installing git ..."; nix-env --install git; else echo "git is already installed ..."; fi
 if [[ "$(which tmux)" == "" ]] ; then echo "installing tmux ..."; nix-env --install tmux; else echo "tmux is already installed ..."; fi
@@ -13,37 +18,28 @@ else
   echo "IOHK caches already configured ... "
 fi
 
-# Print the header welcome message
-cat /vcw/pwd/welcome.txt;
-cat /vcw/pwd/urls.txt;
-echo ""
-
 #---------------------------------------------------------------------------------------------------------------------------------
 
-# ensure IOHK caches are configured
-if [[ "$(cat /etc/nix/nix.conf | grep hydra.iohk.io)" == "" ]] ; then
-  echo "Configuring IOHK caches ... "
-  echo "substituters        = https://hydra.iohk.io https://iohk.cachix.org https://cache.nixos.org/" >> /etc/nix/nix.conf
-  echo "trusted-public-keys = hydra.iohk.io:f/Ea+s+dFdN+3Y/G+FDgSq+a5NEWhJGzdjvKNGv0/EQ= iohk.cachix.org-1:DpRUyj7h7V830dp/i6Nti+NEO2/nhblbov/8MW7Rqoo= cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY=" >> /etc/nix/nix.conf
-else
-  echo "IOHK caches already configured ... "
-fi
-
 # check that Plutus repository is available
-if [[ ! -f /plutus/plutus/default.nix ]] ; then
-  echo "Can't find Plutus repository ... ";
-  echo "Cloning Plutus repository ... ";
-  cd /plutus
+if [[ ! -f /nix/plutus/default.nix ]] ; then
+  echo "Can't find model Plutus repository ... ";
+  echo "Cloning model Plutus repository ... ";
+  cd /nix
   git clone https://github.com/input-output-hk/plutus.git
+  chown -R root:root /nix/plutus
+  chmod -R 775 /nix/plutus
+  cd /nix/plutus
+  git stash save --keep-index --include-untracked
+  git stash drop
 else
   echo "Found Plutus repository ..."
 fi
-chown -R root:root /plutus
-chmod -R 775 /plutus
-cd /plutus/plutus
-git stash save --keep-index --include-untracked
-git stash drop
+
+echo "Refreshing Plutus repository ..."
 cd /plutus
+rm -rf plutus
+cp -R /nix/plutus /plutus/plutus
+
 
 # If a repository is supplied in the arguments, then synchronise Plutus to correct commit
 if [[ "$1" != "" ]] ;  then
