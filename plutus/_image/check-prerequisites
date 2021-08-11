@@ -6,6 +6,7 @@ cat /vcw/pwd/urls.txt;
 echo ""
 
 # Install prerequisites
+if [[ "$(which curl)" == "" ]] ; then echo "installing curl ..."; nix-env --install curl; else echo "curl is already installed ..."; fi
 if [[ "$(which git)" == "" ]] ; then echo "installing git ..."; nix-env --install git; else echo "git is already installed ..."; fi
 if [[ "$(which tmux)" == "" ]] ; then echo "installing tmux ..."; nix-env --install tmux; else echo "tmux is already installed ..."; fi
 
@@ -17,6 +18,7 @@ if [[ "$(cat /etc/nix/nix.conf | grep hydra.iohk.io)" == "" ]] ; then
 else
   echo "IOHK caches already configured ... "
 fi
+if [[ ! -f /root/.cabal/config ]] ; then mkdir /root/.cabal; cp /vcw/pwd/cabal.config /root/.cabal/config; echo "copying in ~/.cabal.config ..."; else echo "~/.cabal.config already exists ..."; fi
 
 #---------------------------------------------------------------------------------------------------------------------------------
 

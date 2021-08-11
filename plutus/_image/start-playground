@@ -1,5 +1,7 @@
 #!/usr/bin/env sh
 
+# check ~/.cabal/config - set http-transport to curl
+
 tmux kill-session -t plutus
 tmux new -s plutus -d
 
