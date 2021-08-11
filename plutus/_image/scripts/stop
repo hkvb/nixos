@@ -1,3 +1,4 @@
 #!/usr/bin/env bash
 
+docker container prune --force
 docker stop plutus-playground-manager

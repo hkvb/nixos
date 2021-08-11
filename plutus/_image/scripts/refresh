@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+docker pull $@hkvb/nixos.plutus
+if [[ "$@" != "" ]] ; then docker tag $@hkvb/nixos.plutus hkvb/nixos.plutus; fi
